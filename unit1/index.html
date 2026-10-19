@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Outsiders · Unit 1 Test</title>
+<meta name="description" content="Unit 1 test — Who are you? I am a teacher. Where are you from? Grammar: to be, a/an, nationalities.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#58cc02;--green-d:#46a302;--green-bg:#d7ffb8;--green-t:#58a700;
+  --red:#ff4b4b;--red-d:#ea2b2b;--red-bg:#ffdfe0;--red-t:#ea2b2b;
+  --blue:#1cb0f6;--blue-d:#1899d6;--blue-bg:#ddf4ff;
+  --gold:#ffc800;--orange:#ff9600;
+  --ink:#3c3c3c;--muted:#777;--line:#e5e5e5;--line-d:#cecece;--bg:#fff;--soft:#f7f7f7;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%}
+body{font-family:Nunito,system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:var(--bg);font-weight:700}
+button{font:inherit;color:inherit}
+.screen{min-height:100%;display:flex;flex-direction:column}
+.hidden{display:none!important}
+
+/* ---------- top bar ---------- */
+.top{display:flex;align-items:center;gap:16px;max-width:1000px;width:100%;margin:0 auto;padding:22px 16px 8px}
+.x{background:none;border:0;font-size:26px;color:#afafaf;cursor:pointer;padding:4px 8px;line-height:1}
+.x:hover{color:var(--muted)}
+.prog{flex:1;height:16px;background:var(--line);border-radius:99px;overflow:hidden}
+.prog>i{display:block;height:100%;width:0;background:var(--green);border-radius:99px;transition:width .45s cubic-bezier(.3,1.4,.6,1);position:relative}
+.prog>i:after{content:"";position:absolute;left:8px;right:8px;top:4px;height:4px;border-radius:9px;background:rgba(255,255,255,.3)}
+.hearts{display:flex;align-items:center;gap:6px;color:var(--red);font-weight:900;font-size:19px}
+.hearts svg{width:26px;height:26px}
+.hearts.shake{animation:shake .4s}
+.streak{display:inline-block;margin-left:10px;background:var(--orange);color:#fff;padding:3px 10px;border-radius:99px;font-size:14px;vertical-align:middle;animation:pop .4s}
+
+/* ---------- lesson body ---------- */
+main.lesson{flex:1;width:100%;max-width:640px;margin:0 auto;padding:18px 16px 200px}
+.kicker{display:inline-flex;align-items:center;gap:8px;color:#ce82ff;font-weight:900;font-size:13px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.kicker.review{color:var(--orange)}
+h2.prompt{font-size:clamp(22px,4.6vw,30px);font-weight:900;margin:0 0 18px;line-height:1.2}
+.scene{display:flex;gap:14px;align-items:flex-end;margin:0 0 20px}
+.scene img{width:100%;max-height:320px;object-fit:cover;border-radius:18px;border:2px solid var(--line);display:block;background:var(--soft)}
+.scene.small img{max-height:230px;object-fit:contain;background:#fff}
+.bubble{position:relative;border:2px solid var(--line);border-radius:16px;padding:12px 16px;font-size:19px;font-weight:700;line-height:1.35}
+.bubble.read{font-size:17px;font-weight:600;background:var(--soft);border-color:var(--soft)}
+.with-bubble{display:grid;grid-template-columns:120px 1fr;gap:14px;align-items:end;margin-bottom:22px}
+.with-bubble img{width:120px;height:150px;object-fit:cover;border-radius:16px;border:2px solid var(--line)}
+.with-bubble .bubble:before{content:"";position:absolute;left:-10px;bottom:22px;width:16px;height:16px;background:#fff;border-left:2px solid var(--line);border-bottom:2px solid var(--line);transform:rotate(45deg)}
+.speak{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:12px;background:var(--blue);border:0;box-shadow:0 4px 0 var(--blue-d);cursor:pointer;margin-right:10px;vertical-align:middle;flex:none}
+.speak svg{width:22px;height:22px;fill:#fff}
+.speak:active{transform:translateY(3px);box-shadow:0 1px 0 var(--blue-d)}
+.big-speak{display:flex;gap:16px;justify-content:center;margin:10px 0 28px}
+.big-speak .speak{width:110px;height:110px;border-radius:24px;box-shadow:0 6px 0 var(--blue-d)}
+.big-speak .speak svg{width:56px;height:56px}
+.big-speak .speak.slow{width:76px;height:76px;align-self:flex-end}
+.big-speak .speak.slow svg{width:34px;height:34px}
+
+/* option buttons */
+.opts{display:grid;gap:12px}
+.opt{display:flex;align-items:center;gap:14px;text-align:left;width:100%;background:#fff;border:2px solid var(--line);border-bottom-width:4px;border-radius:16px;padding:14px 16px;font-size:18px;font-weight:700;cursor:pointer;transition:background .12s,border-color .12s}
+.opt:hover{background:var(--soft)}
+.opt:active{transform:translateY(2px);border-bottom-width:2px;margin-top:2px}
+.opt .k{flex:none;width:30px;height:30px;border:2px solid var(--line);border-radius:9px;display:grid;place-items:center;font-size:14px;color:#afafaf}
+.opt.sel{background:var(--blue-bg);border-color:#84d8ff;color:var(--blue-d)}
+.opt.sel .k{border-color:#84d8ff;color:var(--blue-d)}
+.opt.good{background:var(--green-bg);border-color:#a5ed6e;color:var(--green-t)}
+.opt.bad{background:var(--red-bg);border-color:#ffb2b2;color:var(--red-t)}
+.locked .opt,.locked .tile,.locked .pair,.locked .card{pointer-events:none}
+
+/* image cards */
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.card{background:#fff;border:2px solid var(--line);border-bottom-width:4px;border-radius:16px;padding:10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:17px}
+.card img{width:100%;height:170px;object-fit:contain;border-radius:10px}
+.card.flag img{height:auto;aspect-ratio:4/3;object-fit:cover;border:1px solid var(--line)}
+.card .lbl{display:flex;justify-content:space-between;width:100%;align-items:center;color:var(--muted);font-size:15px}
+.card .lbl .k{width:26px;height:26px;border:2px solid var(--line);border-radius:8px;display:grid;place-items:center;font-size:13px;color:#afafaf}
+.card:hover{background:var(--soft)}
+.card.sel{background:var(--blue-bg);border-color:#84d8ff}
+.card.good{background:var(--green-bg);border-color:#a5ed6e}
+.card.bad{background:var(--red-bg);border-color:#ffb2b2}
+
+/* word bank */
+.answer-line{min-height:118px;border-top:2px solid var(--line);border-bottom:2px solid var(--line);padding:12px 0;display:flex;flex-wrap:wrap;gap:10px;align-content:flex-start;margin-bottom:26px}
+.bank{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.tile{background:#fff;border:2px solid var(--line);border-bottom-width:4px;border-radius:13px;padding:9px 15px;font-size:18px;font-weight:700;cursor:pointer;min-height:46px}
+.tile:active{transform:translateY(2px);border-bottom-width:2px}
+.slot{border-radius:13px;background:var(--line);min-height:46px}
+
+/* match pairs */
+.pairs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pairs .col{display:grid;gap:12px}
+.pair{border:2px solid var(--line);border-bottom-width:4px;border-radius:14px;background:#fff;padding:14px 12px;font-size:17px;cursor:pointer;text-align:center}
+.pair.sel{background:var(--blue-bg);border-color:#84d8ff;color:var(--blue-d)}
+.pair.done{color:#c7c7c7;border-color:var(--line);background:#fff;pointer-events:none;border-bottom-width:2px;margin-top:2px}
+.pair.miss{background:var(--red-bg);border-color:#ffb2b2;color:var(--red-t);animation:shake .35s}
+.pair.hit{background:var(--green-bg);border-color:#a5ed6e;color:var(--green-t)}
+
+/* typing */
+textarea.typed{width:100%;min-height:130px;resize:none;border:2px solid var(--line);border-radius:16px;background:var(--soft);padding:14px 16px;font:inherit;font-size:19px;color:var(--ink);outline:none}
+textarea.typed:focus{border-color:var(--blue);background:#fff}
+
+/* ---------- footer / feedback ---------- */
+footer.bar{position:fixed;left:0;right:0;bottom:0;border-top:2px solid var(--line);background:#fff;transition:background .2s;z-index:4;padding-bottom:env(safe-area-inset-bottom)}
+footer.bar .in{max-width:1000px;margin:0 auto;padding:22px 16px;display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:120px}
+footer.bar.ok{background:var(--green-bg);border-color:var(--green-bg)}
+footer.bar.no{background:var(--red-bg);border-color:var(--red-bg)}
+.fb{display:flex;gap:14px;align-items:center;min-width:0}
+.fb .ico{flex:none;width:64px;height:64px;border-radius:50%;background:#fff;display:grid;place-items:center}
+.fb .ico svg{width:34px;height:34px}
+.fb h3{margin:0;font-size:23px;font-weight:900}
+.fb p{margin:4px 0 0;font-size:16px;font-weight:700;line-height:1.3}
+footer.bar.ok .fb{color:var(--green-t)}
+footer.bar.no .fb{color:var(--red-t)}
+.btn{flex:none;border:0;border-radius:16px;padding:14px 28px;min-width:150px;font-size:16px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;background:var(--green);color:#fff;box-shadow:0 4px 0 var(--green-d)}
+.btn:active{transform:translateY(4px);box-shadow:none}
+.btn:disabled{background:var(--line);color:#afafaf;box-shadow:0 4px 0 var(--line);cursor:default;transform:none}
+.btn.red{background:var(--red);box-shadow:0 4px 0 var(--red-d)}
+.btn.ghost{background:#fff;color:#afafaf;box-shadow:0 4px 0 var(--line);border:2px solid var(--line)}
+.btn.blue{background:var(--blue);box-shadow:0 4px 0 var(--blue-d)}
+@media(max-width:620px){
+  footer.bar .in{flex-direction:column;align-items:stretch;padding:16px;min-height:0}
+  .fb .ico{display:none}
+  .btn{width:100%}
+  .ghost-skip{display:none}
+  main.lesson{padding-bottom:230px}
+  .with-bubble{grid-template-columns:86px 1fr}
+  .with-bubble img{width:86px;height:110px}
+}
+
+/* ---------- start & end ---------- */
+.hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 16px 40px;text-align:center;max-width:720px;margin:0 auto;width:100%}
+.hero .cover{width:100%;max-width:520px;border-radius:24px;border:2px solid var(--line);margin-bottom:22px}
+.chip{display:inline-block;background:#f1e2ff;color:#a560e8;font-weight:900;font-size:13px;letter-spacing:.08em;padding:6px 12px;border-radius:99px;text-transform:uppercase}
+.hero h1{font-size:clamp(30px,6vw,42px);margin:12px 0 6px;font-weight:900;line-height:1.1}
+.hero p.lead{color:var(--muted);font-size:18px;margin:0 0 22px;max-width:480px}
+.topics{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0 0 26px}
+.topics span{border:2px solid var(--line);border-radius:12px;padding:6px 12px;font-size:15px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:480px;margin:6px 0 26px}
+.stat{border-radius:16px;border:2px solid var(--c);overflow:hidden}
+.stat b{display:block;background:var(--c);color:#fff;font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:5px 0;font-weight:900}
+.stat span{display:flex;align-items:center;justify-content:center;gap:6px;padding:14px 0;font-size:22px;font-weight:900;color:var(--c)}
+.trophy{font-size:84px;line-height:1;margin-bottom:6px;animation:pop .6s cubic-bezier(.3,1.6,.5,1)}
+.review-list{width:100%;max-width:480px;text-align:left;margin:0 0 24px;border:2px solid var(--line);border-radius:16px;padding:6px 16px}
+.review-list h4{margin:10px 0 4px;font-size:15px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.review-list div{padding:8px 0;border-top:2px solid var(--soft);font-size:16px}
+.review-list div:first-of-type{border-top:0}
+.review-list small{display:block;color:var(--green-t);font-size:15px}
+.row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.credit{color:#afafaf;font-size:13px;margin-top:22px}
+.credit a{color:inherit}
+
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@keyframes pop{0%{transform:scale(.3);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes rise{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}
+.enter{animation:rise .3s ease-out}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:9}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<!-- START -->
+<section class="screen" id="start">
+  <div class="hero">
+    <img class="cover" src="img/friends.jpg" alt="The characters of Outsiders together in a city">
+    <span class="chip">Outsiders · Unit 1</span>
+    <h1>Who are you?</h1>
+    <p class="lead">Test what you learned in Unit 1 with Lucy, Natalia and Mark.</p>
+    <div class="topics"><span>🎨 Meet Lucy</span><span>🕵️ Meet Mark</span><span>👩‍🍳 Jobs</span><span>🌍 Countries</span><span>📘 To be · a/an</span><span>⚔️ Where English comes from</span></div>
+    <button class="btn" id="go">Start test</button>
+    <p class="credit">Robert Fader · <i>Outsiders</i>, pages 16–24</p>
+  </div>
+</section>
+
+<!-- LESSON -->
+<section class="screen hidden" id="lessonScreen">
+  <div class="top">
+    <button class="x" id="quit" aria-label="Quit">✕</button>
+    <div class="prog" role="progressbar" aria-label="Progress"><i id="bar"></i></div>
+    <div class="hearts" id="hearts" aria-label="Hearts"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 21s-7.5-4.6-9.6-9.2C.9 8.5 2.9 4.5 6.7 4.5c2.2 0 3.6 1.2 4.3 2.5.7-1.3 2.1-2.5 4.3-2.5 3.8 0 5.8 4 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg><span id="hn">5</span></div>
+  </div>
+  <main class="lesson" id="lesson"></main>
+  <footer class="bar" id="foot">
+    <div class="in">
+      <div class="fb" id="fb"><button class="btn ghost ghost-skip" id="skip">Skip</button></div>
+      <button class="btn" id="check" disabled>Check</button>
+    </div>
+  </footer>
+</section>
+
+<!-- END -->
+<section class="screen hidden" id="end">
+  <div class="hero" id="endHero"></div>
+</section>
+
+<script>
+/* =========================================================
+   QUESTIONS — Outsiders, Unit 1 (pages 16–24)
+   types: choice · cards · build · match · type · listen
+   ========================================================= */
+const IMG = n => 'img/' + n + '.jpg';
+const Q = [
+  // ---- A. Who are you? (Lucy) ----
+  {t:'choice', k:'Meet Lucy', img:'lucy', p:'Where is Lucy from?', o:['London','Moscow','Mendoza','Belgrade'], a:0,
+   why:'“My name is Lucy. I am from London.”'},
+  {t:'choice', k:'Meet Lucy', img:'lucy', p:'What is Lucy’s profession?', o:['She’s an artist.','She’s a detective.','She’s a teacher.','She’s a cook.'], a:0,
+   why:'“I am an artist. I paint pictures and I draw people.”'},
+  {t:'choice', k:'True or false?', img:'lucy', small:1, p:'Lucy has a car.', o:['True','False'], a:1,
+   why:'Lucy says: “I don’t have a car.”'},
+  {t:'build', k:'Write this in English', say:'Я художница. Я из Лондона.', p:'Translate', ru:1,
+   a:'I am an artist . I am from London .', extra:['a','is','in'], alt:['I\'m an artist . I\'m from London .'], speakAnswer:'I am an artist. I am from London.'},
+
+  // ---- Lucy meets Natalia ----
+  {t:'choice', k:'Lucy meets Natalia', img:'meet', p:'Where does Natalia live?', o:['In London','In Moscow','In Mendoza','In Rome'], a:1,
+   why:'“I’m from Russia. I live in Moscow.”'},
+  {t:'choice', k:'Lucy meets Natalia', img:'walk', p:'Natalia: “I’m here waiting for my ____, Luciano.”', o:['brother','teacher','boyfriend','friend'], a:2,
+   why:'Natalia is waiting for her boyfriend, Luciano.'},
+  {t:'choice', k:'True or false?', img:'walk', small:1, p:'Luciano is from Argentina.', o:['True','False'], a:0,
+   why:'“Is he from Argentina?” — “Yes, he is.”'},
+  {t:'listen', k:'Listen and write', say:'Nice to meet you too.', a:'Nice to meet you too .', extra:['meet','for','to','nice'], why:'Natalia says “Nice to meet you too.”'},
+
+  // ---- B. I am a teacher (Mark) ----
+  {t:'choice', k:'Meet Mark', img:'mark', p:'What is Mark’s job?', o:['He’s an engineer.','He’s a detective.','He’s a driver.','He’s an artist.'], a:1,
+   why:'“Hello, my name is Mark. I am a detective and I live in London.”'},
+  {t:'choice', k:'Meet Mark', img:'mark', p:'What is Mark looking for?', o:['An old book','A stolen painting','His notebook','A black car'], a:1,
+   why:'His client asked him to find a stolen painting.'},
+  {t:'choice', k:'True or false?', img:'mark', small:1, p:'Mark lives in Paris.', o:['True','False'], a:1,
+   why:'Mark lives in London.'},
+
+  // ---- Jobs ----
+  {t:'cards', k:'New words · Jobs', p:'Which one is the cook?', o:['job-cook','job-engineer','job-waiter','job-driver'], lbl:['','','',''], a:0,
+   why:'A cook prepares food and works in a restaurant.'},
+  {t:'cards', k:'New words · Jobs', p:'Which one is the police officer?', o:['job-shop-assistant','job-driver','job-police-officer','job-engineer'], lbl:['','','',''], a:2,
+   why:'A police officer protects people and works at a police station.'},
+  {t:'choice', k:'What do they do?', img:'job-driver', small:1, p:'This person drives a car, bus or taxi and works on the road.', o:['a waiter','a driver','a shop assistant','an engineer'], a:1},
+  {t:'choice', k:'What do they do?', img:'job-waiter', small:1, p:'This person brings food and drinks to people in a café.', o:['a cook','a doctor','a waitress','a police officer'], a:2},
+  {t:'choice', k:'A or an?', p:'She is ___ engineer.', o:['a','an'], a:1,
+   why:'Use “an” before a vowel sound: an engineer, an artist.'},
+  {t:'choice', k:'A or an?', p:'He is ___ teacher.', o:['a','an'], a:0,
+   why:'Use “a” before a consonant sound: a teacher, a doctor.'},
+
+  // ---- C. Where are you from? ----
+  {t:'cards', k:'Countries', p:'Natalia wants to visit Japan. Tap the flag of Japan.', o:['flag-italy','flag-japan','flag-greece','flag-france'], lbl:['','','',''], a:1, flag:1},
+  {t:'cards', k:'Countries', p:'Where is Natalia from? Tap the flag.', o:['flag-serbia','flag-spain','flag-russia','flag-argentina'], lbl:['','','',''], a:2, flag:1,
+   why:'Natalia is from Russia.'},
+  {t:'choice', k:'Countries', img:'flags', p:'Why does Lucy want to visit Greece?', o:['Because she likes history, old cities and the sea.','Because her boyfriend lives there.','Because she likes mountains.','Because the food is cheap.'], a:0},
+  {t:'match', k:'Country → Nationality', p:'Tap the matching pairs', pairs:[['Mexico','Mexican'],['Brazil','Brazilian'],['Japan','Japanese'],['France','French'],['Peru','Peruvian']]},
+  {t:'choice', k:'Where are they from?', p:'Steve Irwin, the wildlife conservationist, is from…', o:['Canada','Australia','England','the United States'], a:1},
+
+  // ---- D. Grammar ----
+  {t:'choice', k:'Am, is or are?', img:'friends', small:1, p:'Maria and Carlos ___ teachers.', o:['am','is','are'], a:2,
+   why:'They are → Maria and Carlos are.'},
+  {t:'choice', k:'Am, is or are?', p:'It ___ a beautiful country.', o:['am','is','are'], a:1,
+   why:'He / She / It → is.'},
+  {t:'match', k:'Questions & answers', p:'Match each question with its answer', pairs:[['Who are you?','I am Laura.'],['Where is she from?','She is from Brazil.'],['What do you do?','I am a nurse.'],['What is his name?','His name is Pedro.']]},
+  {t:'type', k:'Find the mistake', p:'Correct the sentence.', bubble:'She am a doctor.', a:['She is a doctor.','She\'s a doctor.'],
+   why:'He / She / It → is.'},
+  {t:'type', k:'Find the mistake', p:'Correct the sentence.', bubble:'They is students.', a:['They are students.','They\'re students.'],
+   why:'We / You / They → are.'},
+  {t:'build', k:'Read about Sofia', read:'My friend is Pedro. He is from Mexico. He is an engineer. He works at a big company.', p:'Answer: What does Pedro do?',
+   a:'He is an engineer .', extra:['a','are','from','Mexico'], alt:['He\'s an engineer .']},
+
+  // ---- E. Culture ----
+  {t:'choice', k:'Where does English come from?', img:'vikings', small:1, p:'The Vikings spoke ___, another Germanic language.', o:['French','Latin','Old Norse','Greek'], a:2,
+   why:'English got words like sky, egg and window from Old Norse.'},
+  {t:'choice', k:'Where does English come from?', p:'The name “English” comes from the…', o:['Saxons','Angles','Normans','Vikings'], a:1,
+   why:'Englaland means “land of the Angles”.'},
+  {t:'choice', k:'Where does English come from?', p:'In 1066, the ___ conquered England and brought French words.', o:['Normans','Romans','Jutes','Greeks'], a:0,
+   why:'Words like government, army and restaurant came from French.'},
+];
+
+/* ================= ENGINE ================= */
+const $ = s => document.querySelector(s);
+const lesson = $('#lesson'), foot = $('#foot'), fb = $('#fb'), checkBtn = $('#check');
+let queue, done, total, hearts, xp, streak, best, firstTry, mistakes, cur, state, phase, startTime, reviewMode;
+
+const ICON = {
+  speak:'<svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>',
+  slow:'<svg viewBox="0 0 24 24"><path d="M17.5 13.6c-.9 0-1.7.4-2.3 1l-2.6-1.3a3.4 3.4 0 0 0 0-1.6l2.6-1.3a3.2 3.2 0 1 0-.9-2.2l.1.5-2.7 1.3a3.2 3.2 0 1 0 0 4.4l2.7 1.4-.1.4a3.2 3.2 0 1 0 3.2-2.6z"/></svg>',
+  ok:'<svg viewBox="0 0 24 24"><path fill="#58a700" d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>',
+  no:'<svg viewBox="0 0 24 24"><path fill="#ea2b2b" d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z"/></svg>'
+};
+const PRAISE = ['Great job!','Excellent!','Nice!','Amazing!','Correct!','You got it!','Awesome!'];
+
+/* ---------- sound ---------- */
+let actx;
+function tone(seq){ try{
+  actx = actx || new (window.AudioContext||window.webkitAudioContext)();
+  let t = actx.currentTime;
+  seq.forEach(([f,d,type='sine',v=.18])=>{
+    const o=actx.createOscillator(), g=actx.createGain();
+    o.type=type; o.frequency.value=f; g.gain.setValueAtTime(v,t); g.gain.exponentialRampToValueAtTime(.001,t+d);
+    o.connect(g).connect(actx.destination); o.start(t); o.stop(t+d); t+=d*.8;
+  });
+}catch(e){} }
+const sGood = () => tone([[784,.12],[1047,.22]]);
+const sBad  = () => tone([[220,.18,'square',.08],[180,.25,'square',.08]]);
+const sWin  = () => tone([[523,.12],[659,.12],[784,.12],[1047,.35]]);
+
+/* ---------- speech ---------- */
+function speak(text, rate=0.95, lang='en-GB'){
+  if(!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = lang; u.rate = rate;
+  const v = speechSynthesis.getVoices().find(v=>v.lang===lang) || speechSynthesis.getVoices().find(v=>v.lang.startsWith(lang.slice(0,2)));
+  if(v) u.voice = v;
+  speechSynthesis.speak(u);
+}
+if('speechSynthesis' in window) speechSynthesis.getVoices();
+
+/* ---------- helpers ---------- */
+const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuffle = a => { a=[...a]; for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];} return a; };
+const norm = s => s.toLowerCase().replace(/[’‘`]/g,"'").replace(/[.,!?;:"“”]/g,' ').replace(/\s+/g,' ').trim();
+const joinTokens = arr => arr.join(' ').replace(/\s+([.,!?])/g,'$1');
+
+function start(){
+  queue = Q.map((q,i)=>({...q,id:i}));
+  done = 0; total = queue.length; hearts = 5; xp = 0; streak = 0; best = 0;
+  firstTry = new Set(); mistakes = new Map(); reviewMode = false;
+  startTime = Date.now();
+  $('#start').classList.add('hidden'); $('#end').classList.add('hidden'); $('#lessonScreen').classList.remove('hidden');
+  updateTop(); next();
+}
+
+function updateTop(){
+  $('#bar').style.width = (done/total*100)+'%';
+  $('#hn').textContent = hearts;
+}
+
+function next(){
+  if(!queue.length) return finish(true);
+  cur = queue.shift(); state = {}; phase = 'answer';
+  foot.className = 'bar';
+  fb.innerHTML = '<button class="btn ghost ghost-skip" id="skip">Skip</button>';
+  $('#skip').onclick = () => { if(phase==='answer'){ state.skipped=1; grade(); } };
+  checkBtn.textContent = 'Check'; checkBtn.className = 'btn'; checkBtn.disabled = true;
+  render(cur);
+  lesson.classList.remove('locked');
+  window.scrollTo({top:0});
+}
+
+function kicker(q){
+  return `<div class="kicker${q._review?' review':''}">${q._review?'↻ Previous mistake':esc(q.k)}</div>`;
+}
+function picture(q){
+  if(!q.img) return '';
+  return `<div class="scene${q.small?' small':''}"><img src="${IMG(q.img)}" alt=""></div>`;
+}
+
+function render(q){
+  let h = kicker(q);
+  if(q.t==='choice'){
+    h += `<h2 class="prompt">${esc(q.p)}</h2>` + picture(q);
+    const order = shuffle(q.o.map((o,i)=>i));
+    if(q.o.length===2 && /True|a$/.test(q.o[0])) order.sort(); // keep True/False & a/an in natural order
+    state.order = order;
+    h += `<div class="opts">` + order.map((i,n)=>`<button class="opt" data-i="${i}"><span class="k">${n+1}</span><span>${esc(q.o[i])}</span></button>`).join('') + `</div>`;
+    lesson.innerHTML = h;
+    lesson.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+      lesson.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));
+      b.classList.add('sel'); state.pick=+b.dataset.i; checkBtn.disabled=false;
+      if(/^[a-z ’'.,]+$/i.test(q.o[state.pick])) speak(q.o[state.pick]);
+    });
+  }
+  else if(q.t==='cards'){
+    h += `<h2 class="prompt">${esc(q.p)}</h2>`;
+    const order = shuffle(q.o.map((o,i)=>i)); state.order=order;
+    h += `<div class="cards">` + order.map((i,n)=>`<button class="card${q.flag?' flag':''}" data-i="${i}" aria-label="Option ${n+1}"><img src="${IMG(q.o[i])}" alt=""><span class="lbl"><span></span><span class="k">${n+1}</span></span></button>`).join('') + `</div>`;
+    lesson.innerHTML = h;
+    lesson.querySelectorAll('.card').forEach(b=>b.onclick=()=>{
+      lesson.querySelectorAll('.card').forEach(x=>x.classList.remove('sel'));
+      b.classList.add('sel'); state.pick=+b.dataset.i; checkBtn.disabled=false;
+    });
+  }
+  else if(q.t==='build' || q.t==='listen'){
+    if(q.t==='listen'){
+      h += `<h2 class="prompt">Tap what you hear</h2><div class="big-speak"><button class="speak" id="sp" aria-label="Play">${ICON.speak}</button><button class="speak slow" id="spS" aria-label="Play slowly">${ICON.slow}</button></div>`;
+    } else if(q.read){
+      h += `<h2 class="prompt">${esc(q.p)}</h2><div class="bubble read" style="margin-bottom:22px">${esc(q.read)}</div>`;
+    } else {
+      h += `<h2 class="prompt">${esc(q.p)}</h2><div class="with-bubble"><img src="${IMG('lucy')}" alt="Lucy"><div class="bubble">${esc(q.say)}</div></div>`;
+    }
+    const words = q.a.split(' ');
+    const bank = shuffle([...words, ...(q.extra||[])].filter(w=>w!=='.' && w!=='?'));
+    state.bank = bank; state.chosen = [];
+    h += `<div class="answer-line" id="line"></div><div class="bank" id="bank">` +
+      bank.map((w,i)=>`<span class="slot" data-i="${i}"><button class="tile" data-i="${i}">${esc(w)}</button></span>`).join('') + `</div>`;
+    lesson.innerHTML = h;
+    if(q.t==='listen'){
+      $('#sp').onclick=()=>speak(q.say); $('#spS').onclick=()=>speak(q.say,.6);
+      setTimeout(()=>speak(q.say),350);
+    }
+    const line = $('#line');
+    lesson.querySelectorAll('#bank .tile').forEach(b=>b.onclick=()=>{
+      const i=+b.dataset.i; state.chosen.push(i);
+      b.parentElement.classList.add('used'); b.style.visibility='hidden';
+      const t=document.createElement('button'); t.className='tile enter'; t.textContent=bank[i]; t.dataset.i=i;
+      t.onclick=()=>{ state.chosen=state.chosen.filter(x=>x!==i); t.remove(); b.style.visibility='visible'; checkBtn.disabled=!state.chosen.length; };
+      line.appendChild(t); checkBtn.disabled=false;
+      if(q.t!=='listen') speak(bank[i],1);
+    });
+  }
+  else if(q.t==='match'){
+    h += `<h2 class="prompt">${esc(q.p)}</h2>`;
+    const L = shuffle(q.pairs.map((p,i)=>i)), R = shuffle(q.pairs.map((p,i)=>i));
+    h += `<div class="pairs"><div class="col">${L.map(i=>`<button class="pair" data-s="L" data-i="${i}">${esc(q.pairs[i][0])}</button>`).join('')}</div><div class="col">${R.map(i=>`<button class="pair" data-s="R" data-i="${i}">${esc(q.pairs[i][1])}</button>`).join('')}</div></div>`;
+    lesson.innerHTML = h;
+    state.sel = {}; state.matched = 0; state.misses = 0;
+    lesson.querySelectorAll('.pair').forEach(b=>b.onclick=()=>{
+      const side=b.dataset.s, other=side==='L'?'R':'L';
+      lesson.querySelectorAll(`.pair[data-s="${side}"]`).forEach(x=>x.classList.remove('sel'));
+      b.classList.add('sel'); state.sel[side]=b;
+      speak(b.textContent,1);
+      if(state.sel[other]){
+        const a=state.sel.L, c=state.sel.R;
+        if(a.dataset.i===c.dataset.i){
+          [a,c].forEach(x=>{x.classList.remove('sel');x.classList.add('hit');});
+          tone([[880,.08]]);
+          setTimeout(()=>[a,c].forEach(x=>{x.classList.remove('hit');x.classList.add('done');}),350);
+          state.matched++;
+          if(state.matched===q.pairs.length){ checkBtn.disabled=false; checkBtn.textContent='Check'; }
+        } else {
+          state.misses++;
+          [a,c].forEach(x=>{x.classList.remove('sel');x.classList.add('miss');});
+          tone([[200,.12,'square',.06]]);
+          setTimeout(()=>[a,c].forEach(x=>x.classList.remove('miss')),450);
+        }
+        state.sel={};
+      }
+    });
+  }
+  else if(q.t==='type'){
+    h += `<h2 class="prompt">${esc(q.p)}</h2><div class="with-bubble"><img src="${IMG('notebook')}" alt=""><div class="bubble"><button class="speak" id="sp" aria-label="Play">${ICON.speak}</button>${esc(q.bubble)}</div></div>
+      <textarea class="typed" id="typed" placeholder="Type in English" autocomplete="off" autocapitalize="sentences" spellcheck="false"></textarea>`;
+    lesson.innerHTML = h;
+    $('#sp').onclick=()=>speak(q.bubble);
+    const ta=$('#typed'); ta.focus();
+    ta.oninput=()=>{ state.text=ta.value; checkBtn.disabled=!ta.value.trim(); };
+    ta.onkeydown=e=>{ if(e.key==='Enter'){ e.preventDefault(); if(!checkBtn.disabled) checkBtn.click(); } };
+  }
+}
+
+function isCorrect(q){
+  if(state.skipped) return false;
+  if(q.t==='choice'||q.t==='cards') return state.pick===q.a;
+  if(q.t==='build'||q.t==='listen'){
+    const got = norm(joinTokens(state.chosen.map(i=>state.bank[i])));
+    return [q.a, ...(q.alt||[])].some(x=>norm(x)===got);
+  }
+  if(q.t==='match') return state.misses===0;
+  if(q.t==='type') return q.a.some(x=>norm(x)===norm(state.text||''));
+}
+function correctText(q){
+  if(q.t==='choice') return q.o[q.a];
+  if(q.t==='build'||q.t==='listen') return joinTokens(q.a.split(' '));
+  if(q.t==='type') return q.a[0];
+  if(q.t==='cards') return null;
+  return null;
+}
+
+function grade(){
+  const q=cur, ok=isCorrect(q);
+  phase='feedback'; lesson.classList.add('locked');
+  // mark choices
+  if(q.t==='choice'||q.t==='cards'){
+    const sel = q.t==='choice'?'.opt':'.card';
+    lesson.querySelectorAll(sel).forEach(b=>{
+      const i=+b.dataset.i;
+      b.classList.remove('sel');
+      if(i===q.a) b.classList.add('good');
+      else if(i===state.pick) b.classList.add('bad');
+    });
+  }
+  if(q.t==='type') $('#typed').disabled=true;
+
+  if(ok){
+    sGood(); streak++; best=Math.max(best,streak);
+    if(!q._review && !firstTry.has(q.id) && !mistakes.has(q.id)) firstTry.add(q.id);
+    xp += q._review ? 5 : 10;
+    done++;
+    foot.className='bar ok';
+    const extra = q.t==='match' ? 'All pairs matched.' : (q.why && q.t!=='choice' ? esc(q.why) : '');
+    const fire = streak>=3 ? `<span class="streak">🔥 ${streak} in a row</span>` : '';
+    fb.innerHTML = `<div class="ico">${ICON.ok}</div><div><h3>${PRAISE[Math.random()*PRAISE.length|0]}${fire}</h3>${extra?`<p>${extra}</p>`:''}</div>`;
+    checkBtn.className='btn';
+    if(q.t==='build'||q.t==='type') speak(q.speakAnswer || correctText(q));
+  } else {
+    sBad(); streak=0; hearts--;
+    $('#hearts').classList.remove('shake'); void $('#hearts').offsetWidth; $('#hearts').classList.add('shake');
+    if(!mistakes.has(q.id)) mistakes.set(q.id,q);
+    queue.push({...q,_review:1});   // try again at the end
+    foot.className='bar no';
+    const ct = correctText(q);
+    let body = '';
+    if(q.t==='match') body = `You made ${state.misses} wrong match${state.misses===1?'':'es'}. We’ll try it again later.`;
+    else if(ct) body = `<b>Correct answer:</b><br>${esc(ct)}`;
+    if(q.why) body += (body?'<br>':'') + `<span style="font-weight:600">${esc(q.why)}</span>`;
+    fb.innerHTML = `<div class="ico">${ICON.no}</div><div><h3>${state.skipped?'Skipped':'Not quite'}</h3>${body?`<p>${body}</p>`:''}</div>`;
+    checkBtn.className='btn red';
+  }
+  checkBtn.textContent='Continue'; checkBtn.disabled=false; checkBtn.focus({preventScroll:true});
+  updateTop();
+  if(hearts<=0) { checkBtn.onclick=null; checkBtn.textContent='Continue'; phase='dead'; }
+}
+
+
+checkBtn.addEventListener('click',()=>{
+  if(phase==='answer'){ if(!checkBtn.disabled) grade(); }
+  else if(phase==='feedback'){ next(); }
+  else if(phase==='dead'){ finish(false); }
+});
+
+document.addEventListener('keydown',e=>{
+  if($('#lessonScreen').classList.contains('hidden')) {
+    if(e.key==='Enter' && !$('#start').classList.contains('hidden')) start();
+    return;
+  }
+  if(e.target.tagName==='TEXTAREA') return;
+  if(e.key==='Enter'){ e.preventDefault(); if(!checkBtn.disabled) checkBtn.click(); return; }
+  if(phase==='answer' && /^[1-9]$/.test(e.key)){
+    const els = lesson.querySelectorAll('.opt,.card');
+    const el = els[+e.key-1]; if(el) el.click();
+  }
+});
+
+$('#go').onclick = start;
+$('#quit').onclick = () => { if(confirm('Quit the test? Your progress will be lost.')){ $('#lessonScreen').classList.add('hidden'); $('#start').classList.remove('hidden'); speechSynthesis && speechSynthesis.cancel(); } };
+
+function finish(won){
+  $('#lessonScreen').classList.add('hidden'); $('#end').classList.remove('hidden');
+  const secs = Math.round((Date.now()-startTime)/1000);
+  const acc = Math.round(firstTry.size/total*100);
+  const time = `${Math.floor(secs/60)}:${String(secs%60).padStart(2,'0')}`;
+  let html;
+  if(won){
+    sWin(); confetti();
+    const title = acc>=90 ? 'Unit 1 mastered!' : acc>=70 ? 'Test complete!' : 'You finished the test!';
+    html = `<div class="trophy">${acc>=90?'🏆':acc>=70?'⭐':'💪'}</div><h1>${title}</h1>
+      <p class="lead">${acc>=90?'Lucy would paint a portrait of you. Excellent work.':acc>=70?'Very good! Review the questions below and try again for a perfect score.':'Good effort. Review the mistakes below and try once more.'}</p>`;
+  } else {
+    html = `<div class="trophy">💔</div><h1>Out of hearts</h1><p class="lead">You ran out of hearts this time. Review the mistakes and try again — you can do it!</p>`;
+  }
+  html += `<div class="stats">
+      <div class="stat" style="--c:var(--gold)"><b>Total XP</b><span>⚡ ${xp}</span></div>
+      <div class="stat" style="--c:var(--green)"><b>${won?'Accuracy':'Answered'}</b><span>🎯 ${won?acc+'%':done+'/'+total}</span></div>
+      <div class="stat" style="--c:var(--blue)"><b>Time</b><span>⏱ ${time}</span></div></div>`;
+  if(mistakes.size){
+    html += `<div class="review-list"><h4>Review</h4>` + [...mistakes.values()].map(q=>{
+      const ct = q.t==='cards' ? '' : q.t==='match' ? q.pairs.map(p=>p.join(' → ')).join(' · ') : correctText(q);
+      const prompt = q.t==='listen' ? '🔊 '+q.say : q.t==='type' ? q.bubble : q.say || q.p;
+      return `<div>${esc(prompt)}${ct?`<small>${esc(ct)}</small>`:''}${q.why?`<small style="color:var(--muted)">${esc(q.why)}</small>`:''}</div>`;
+    }).join('') + `</div>`;
+  }
+  html += `<div class="row"><button class="btn" id="again">Try again</button></div>
+    <p class="credit">Outsiders · Unit 1 · Robert Fader</p>`;
+  $('#endHero').innerHTML = html;
+  $('#again').onclick = start;
+}
+
+function confetti(){
+  const c=document.createElement('canvas'); c.className='confetti'; document.body.appendChild(c);
+  const x=c.getContext('2d'); c.width=innerWidth; c.height=innerHeight;
+  const cols=['#58cc02','#1cb0f6','#ffc800','#ff4b4b','#ce82ff','#ff9600'];
+  const P=Array.from({length:140},()=>({x:Math.random()*c.width,y:-20-Math.random()*c.height*.5,vx:(Math.random()-.5)*3,vy:2+Math.random()*4,r:Math.random()*6.3,s:6+Math.random()*6,c:cols[Math.random()*6|0]}));
+  let f=0;(function loop(){ x.clearRect(0,0,c.width,c.height);
+    P.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.r+=.1;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.c;x.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);x.restore();});
+    if(++f<220) requestAnimationFrame(loop); else c.remove(); })();
+}
+</script>
+</body>
+</html>

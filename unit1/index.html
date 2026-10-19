@@ -308,7 +308,14 @@ function voiceFor(lang){
   const same = vs.filter(x=>x.l.toLowerCase()===lang.toLowerCase());
   return (same.find(x=>VOICE_PREF[lang].test(x.v.name)) || same.find(x=>x.v.localService) || same[0] || {}).v || null;
 }
-function speak(text, rate=0.95, lang=accent){
+/* Audio: plays recorded MP3s from audio/ (same voice on every device).
+   File name = text in lowercase, apostrophes removed, other symbols → "-".
+   If a file is missing, falls back to the browser voice. */
+const AUDIO_DIR = 'audio/';
+const missing = new Set();
+let player = null;
+const slug = t => t.toLowerCase().replace(/[’‘']/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+function ttsSpeak(text, rate, lang){
   if(!('speechSynthesis' in window)) return;
   speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
@@ -316,6 +323,21 @@ function speak(text, rate=0.95, lang=accent){
   const v = voiceFor(lang);
   if(v) u.voice = v;
   speechSynthesis.speak(u);
+}
+function speak(text, rate=0.95, lang=accent){
+  if(player){ player.pause(); player = null; }
+  if('speechSynthesis' in window) speechSynthesis.cancel();
+  const name = slug(text);
+  if(!name || missing.has(name)) return ttsSpeak(text, rate, lang);
+  const a = new Audio(AUDIO_DIR + name + '.mp3');
+  let fellBack = false;
+  const fallback = () => { if(fellBack) return; fellBack = true; missing.add(name); if(player===a) ttsSpeak(text, rate, lang); };
+  a.preservesPitch = true;
+  a.playbackRate = rate < 0.8 ? 0.7 : 1;
+  a.onerror = fallback;
+  player = a;
+  const pr = a.play();
+  if(pr) pr.catch(err => { if(err && err.name !== 'AbortError' && err.name !== 'NotAllowedError') fallback(); });
 }
 if('speechSynthesis' in window) speechSynthesis.getVoices();
 

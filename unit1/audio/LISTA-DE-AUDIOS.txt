@@ -1,0 +1,123 @@
+AUDIOS — OUTSIDERS · UNIDAD 1 (inglés americano)
+
+Total: 88 audios.
+
+CÓMO GENERARLOS
+- Usá siempre la MISMA voz americana para todos.
+- Formato MP3. Un archivo por línea.
+- El nombre del archivo tiene que ser exactamente el de la izquierda (con .mp3 al final).
+- Subí todos los archivos a la carpeta  unit1/audio/  del repositorio.
+- Si falta algún archivo, el test usa la voz del navegador para esa frase, así que podés subirlos de a poco.
+- La velocidad lenta (botón de la tortuga) la hace el test solo: no hace falta generar versiones lentas.
+
+OJO CON LA PRONUNCIACIÓN
+- "a" (a.mp3) es el artículo: tiene que sonar /ə/ (como "uh"), no como la letra "ei".
+  Si tu programa lo lee como letra, escribí "uh" o "a book" y recortá.
+- "I" (i.mp3) es el pronombre "yo": suena "ai".
+- "She am a doctor." y "They is students." están mal a propósito (son el ejercicio de
+  corregir errores). Generalos tal cual.
+
+ARCHIVO  →  TEXTO A GENERAR
+
+1. EJERCICIO DE ESCUCHAR (el más importante)  (1)
+--------------------------------------------
+nice-to-meet-you-too.mp3  →  Nice to meet you too.
+
+2. FRASES COMPLETAS  (6)
+-------------------
+i-am-an-artist-i-am-from-london.mp3  →  I am an artist. I am from London.
+she-am-a-doctor.mp3  →  She am a doctor.
+she-is-a-doctor.mp3  →  She is a doctor.
+they-is-students.mp3  →  They is students.
+they-are-students.mp3  →  They are students.
+he-is-an-engineer.mp3  →  He is an engineer.
+
+3. PAREJAS (unir preguntas y respuestas / países y nacionalidades)  (18)
+------------------------------------------------------------------
+mexico.mp3  →  Mexico
+mexican.mp3  →  Mexican
+brazil.mp3  →  Brazil
+brazilian.mp3  →  Brazilian
+japan.mp3  →  Japan
+japanese.mp3  →  Japanese
+france.mp3  →  France
+french.mp3  →  French
+peru.mp3  →  Peru
+peruvian.mp3  →  Peruvian
+who-are-you.mp3  →  Who are you?
+i-am-laura.mp3  →  I am Laura.
+where-is-she-from.mp3  →  Where is she from?
+she-is-from-brazil.mp3  →  She is from Brazil.
+what-do-you-do.mp3  →  What do you do?
+i-am-a-nurse.mp3  →  I am a nurse.
+what-is-his-name.mp3  →  What is his name?
+his-name-is-pedro.mp3  →  His name is Pedro.
+
+4. OPCIONES DE RESPUESTA  (53)
+------------------------
+london.mp3  →  London
+moscow.mp3  →  Moscow
+mendoza.mp3  →  Mendoza
+belgrade.mp3  →  Belgrade
+shes-an-artist.mp3  →  She’s an artist.
+shes-a-detective.mp3  →  She’s a detective.
+shes-a-teacher.mp3  →  She’s a teacher.
+shes-a-cook.mp3  →  She’s a cook.
+true.mp3  →  True
+false.mp3  →  False
+in-london.mp3  →  In London
+in-moscow.mp3  →  In Moscow
+in-mendoza.mp3  →  In Mendoza
+in-rome.mp3  →  In Rome
+brother.mp3  →  brother
+teacher.mp3  →  teacher
+boyfriend.mp3  →  boyfriend
+friend.mp3  →  friend
+hes-an-engineer.mp3  →  He’s an engineer.
+hes-a-detective.mp3  →  He’s a detective.
+hes-a-driver.mp3  →  He’s a driver.
+hes-an-artist.mp3  →  He’s an artist.
+an-old-book.mp3  →  An old book
+a-stolen-painting.mp3  →  A stolen painting
+his-notebook.mp3  →  His notebook
+a-black-car.mp3  →  A black car
+a-waiter.mp3  →  a waiter
+a-driver.mp3  →  a driver
+a-shop-assistant.mp3  →  a shop assistant
+an-engineer.mp3  →  an engineer
+a-cook.mp3  →  a cook
+a-doctor.mp3  →  a doctor
+a-waitress.mp3  →  a waitress
+a-police-officer.mp3  →  a police officer
+because-she-likes-history-old-cities-and-the-sea.mp3  →  Because she likes history, old cities and the sea.
+because-her-boyfriend-lives-there.mp3  →  Because her boyfriend lives there.
+because-she-likes-mountains.mp3  →  Because she likes mountains.
+because-the-food-is-cheap.mp3  →  Because the food is cheap.
+canada.mp3  →  Canada
+australia.mp3  →  Australia
+england.mp3  →  England
+the-united-states.mp3  →  the United States
+are.mp3  →  are
+latin.mp3  →  Latin
+old-norse.mp3  →  Old Norse
+greek.mp3  →  Greek
+saxons.mp3  →  Saxons
+angles.mp3  →  Angles
+normans.mp3  →  Normans
+vikings.mp3  →  Vikings
+romans.mp3  →  Romans
+jutes.mp3  →  Jutes
+greeks.mp3  →  Greeks
+
+5. PALABRAS SUELTAS (banco de palabras)  (10)
+---------------------------------------
+i.mp3  →  I
+am.mp3  →  am
+an.mp3  →  an
+artist.mp3  →  artist
+from.mp3  →  from
+a.mp3  →  a
+is.mp3  →  is
+in.mp3  →  in
+he.mp3  →  He
+engineer.mp3  →  engineer

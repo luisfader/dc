@@ -136,6 +136,19 @@ footer.bar.no .fb{color:var(--red-t)}
 .hero h1{font-size:clamp(30px,6vw,42px);margin:12px 0 6px;font-weight:900;line-height:1.1}
 .hero p.lead{color:var(--muted);font-size:18px;margin:0 0 22px;max-width:480px}
 .topics{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0 0 26px}
+.accent{width:100%;max-width:440px;margin:0 0 24px}
+.accent h3{margin:0 0 10px;font-size:17px;font-weight:900}
+.accent-opts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.acc{display:flex;flex-direction:column;align-items:center;gap:4px;background:#fff;border:2px solid var(--line);border-bottom-width:4px;border-radius:16px;padding:14px 10px 12px;cursor:pointer;font-size:17px;font-weight:800}
+.acc .fl{font-size:34px;line-height:1}
+.acc small{color:var(--muted);font-weight:700;font-size:13px}
+.acc .try{margin-top:6px;display:inline-flex;align-items:center;gap:6px;color:var(--blue-d);font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:.04em}
+.acc .try svg{width:16px;height:16px;fill:currentColor}
+.acc:hover{background:var(--soft)}
+.acc[aria-checked="true"]{background:var(--blue-bg);border-color:#84d8ff;color:var(--blue-d)}
+.acc-note{color:var(--muted);font-size:13px;margin:8px 0 0;min-height:18px}
+.acc-chip{border:2px solid var(--line);border-radius:12px;background:#fff;padding:4px 8px;font-size:18px;cursor:pointer;line-height:1.1}
+.acc-chip:hover{background:var(--soft)}
 .topics span{border:2px solid var(--line);border-radius:12px;padding:6px 12px;font-size:15px}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:480px;margin:6px 0 26px}
 .stat{border-radius:16px;border:2px solid var(--c);overflow:hidden}
@@ -169,6 +182,14 @@ footer.bar.no .fb{color:var(--red-t)}
     <h1>Who are you?</h1>
     <p class="lead">Test what you learned in Unit 1 with Lucy, Natalia and Mark.</p>
     <div class="topics"><span>🎨 Meet Lucy</span><span>🕵️ Meet Mark</span><span>👩‍🍳 Jobs</span><span>🌍 Countries</span><span>📘 To be · a/an</span><span>⚔️ Where English comes from</span></div>
+    <div class="accent" role="radiogroup" aria-label="Audio accent">
+      <h3>Choose your audio</h3>
+      <div class="accent-opts">
+        <button class="acc" role="radio" data-acc="en-GB"><span class="fl">🇬🇧</span>British English<small>London</small><span class="try"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4z"/></svg>Listen</span></button>
+        <button class="acc" role="radio" data-acc="en-US"><span class="fl">🇺🇸</span>American English<small>New York</small><span class="try"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4z"/></svg>Listen</span></button>
+      </div>
+      <p class="acc-note" id="accNote"></p>
+    </div>
     <button class="btn" id="go">Start test</button>
     <p class="credit">Robert Fader · <i>Outsiders</i>, pages 16–24</p>
   </div>
@@ -179,6 +200,7 @@ footer.bar.no .fb{color:var(--red-t)}
   <div class="top">
     <button class="x" id="quit" aria-label="Quit">✕</button>
     <div class="prog" role="progressbar" aria-label="Progress"><i id="bar"></i></div>
+    <button class="acc-chip" id="accChip" title="Change accent" aria-label="Change accent"></button>
     <div class="hearts" id="hearts" aria-label="Hearts"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 21s-7.5-4.6-9.6-9.2C.9 8.5 2.9 4.5 6.7 4.5c2.2 0 3.6 1.2 4.3 2.5.7-1.3 2.1-2.5 4.3-2.5 3.8 0 5.8 4 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg><span id="hn">5</span></div>
   </div>
   <main class="lesson" id="lesson"></main>
@@ -300,16 +322,40 @@ const sBad  = () => tone([[220,.18,'square',.08],[180,.25,'square',.08]]);
 const sWin  = () => tone([[523,.12],[659,.12],[784,.12],[1047,.35]]);
 
 /* ---------- speech ---------- */
-function speak(text, rate=0.95, lang='en-GB'){
+let accent = 'en-GB';
+try{ const a = localStorage.getItem('outsiders-accent'); if(a==='en-US'||a==='en-GB') accent = a; }catch(e){}
+const ACC = {'en-GB':{flag:'🇬🇧',name:'British English',sample:'Hello! My name is Lucy. I am from London.'},
+             'en-US':{flag:'🇺🇸',name:'American English',sample:'Hi! My name is Luciano. Nice to meet you.'}};
+const VOICE_PREF = {'en-GB':/google uk english|daniel|serena|kate|arthur|sonia|libby|ryan|hazel|george|susan/i,
+                    'en-US':/google us english|samantha|alex|aria|jenny|guy|zira|david|mark|allison|ava|tom/i};
+function voiceFor(lang){
+  if(!('speechSynthesis' in window)) return null;
+  const vs = speechSynthesis.getVoices().map(v=>({v,l:v.lang.replace('_','-')}));
+  const same = vs.filter(x=>x.l.toLowerCase()===lang.toLowerCase());
+  return (same.find(x=>VOICE_PREF[lang].test(x.v.name)) || same.find(x=>x.v.localService) || same[0] || {}).v || null;
+}
+function speak(text, rate=0.95, lang=accent){
   if(!('speechSynthesis' in window)) return;
   speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
   u.lang = lang; u.rate = rate;
-  const v = speechSynthesis.getVoices().find(v=>v.lang===lang) || speechSynthesis.getVoices().find(v=>v.lang.startsWith(lang.slice(0,2)));
+  const v = voiceFor(lang);
   if(v) u.voice = v;
   speechSynthesis.speak(u);
 }
-if('speechSynthesis' in window) speechSynthesis.getVoices();
+function setAccent(a, preview){
+  accent = a;
+  try{ localStorage.setItem('outsiders-accent', a); }catch(e){}
+  document.querySelectorAll('.acc').forEach(b=>b.setAttribute('aria-checked', b.dataset.acc===a));
+  $('#accChip').textContent = ACC[a].flag;
+  $('#accChip').title = ACC[a].name + ' — tap to change';
+  const note = $('#accNote');
+  if(!('speechSynthesis' in window)) note.textContent = 'Audio is not available in this browser.';
+  else if(speechSynthesis.getVoices().length && !voiceFor(a)) note.textContent = `Your device has no ${ACC[a].name} voice, so audio may sound different.`;
+  else note.textContent = '';
+  if(preview) speak(ACC[a].sample, .95, a);
+}
+if('speechSynthesis' in window){ speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = () => setAccent(accent); }
 
 /* ---------- helpers ---------- */
 const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -378,7 +424,7 @@ function render(q){
   }
   else if(q.t==='build' || q.t==='listen'){
     if(q.t==='listen'){
-      h += `<h2 class="prompt">Tap what you hear</h2><div class="big-speak"><button class="speak" id="sp" aria-label="Play">${ICON.speak}</button><button class="speak slow" id="spS" aria-label="Play slowly">${ICON.slow}</button></div>`;
+      h += `<h2 class="prompt">Tap what you hear</h2><div class="big-speak"><button class="speak" id="sp" aria-label="Play">${ICON.speak}</button><button class="speak slow" id="spS" aria-label="Play slowly"><span style="font-size:36px;line-height:1">🐢</span></button></div>`;
     } else if(q.read){
       h += `<h2 class="prompt">${esc(q.p)}</h2><div class="bubble read" style="margin-bottom:22px">${esc(q.read)}</div>`;
     } else {
@@ -528,6 +574,9 @@ document.addEventListener('keydown',e=>{
 });
 
 $('#go').onclick = start;
+document.querySelectorAll('.acc').forEach(b=>b.onclick=()=>setAccent(b.dataset.acc,true));
+$('#accChip').onclick = () => setAccent(accent==='en-GB'?'en-US':'en-GB', true);
+setAccent(accent);
 $('#quit').onclick = () => { if(confirm('Quit the test? Your progress will be lost.')){ $('#lessonScreen').classList.add('hidden'); $('#start').classList.remove('hidden'); speechSynthesis && speechSynthesis.cancel(); } };
 
 function finish(won){

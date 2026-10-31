@@ -159,7 +159,8 @@ footer.bar.no .fb{color:var(--red-t)}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
-<body>
+<body data-page="unit1-test">
+<script src="../outsiders/progress.js"></script>
 
 <!-- START -->
 <section class="screen" id="start">
@@ -565,6 +566,7 @@ function finish(won){
   $('#lessonScreen').classList.add('hidden'); $('#end').classList.remove('hidden');
   const secs = Math.round((Date.now()-startTime)/1000);
   const acc = Math.round(firstTry.size/total*100);
+  if(window.OUTSIDERS&&won) OUTSIDERS.record('unit1',acc,firstTry.size,total);
   const time = `${Math.floor(secs/60)}:${String(secs%60).padStart(2,'0')}`;
   let html;
   if(won){
@@ -575,6 +577,7 @@ function finish(won){
   } else {
     html = `<div class="trophy">💔</div><h1>Out of hearts</h1><p class="lead">You ran out of hearts this time. Review the mistakes and try again — you can do it!</p>`;
   }
+  if(window.OUTSIDERS){ html += (won&&acc>=OUTSIDERS.PASS) ? `<p class="lead">🔓 Unit 2 is now unlocked! <a href="${OUTSIDERS.root}unit2/index.html">Start Unit 2 →</a></p>` : `<p class="lead">🔒 You need at least ${OUTSIDERS.PASS}% accuracy to unlock Unit 2.</p>`; }
   html += `<div class="stats">
       <div class="stat" style="--c:var(--gold)"><b>Total XP</b><span>⚡ ${xp}</span></div>
       <div class="stat" style="--c:var(--green)"><b>${won?'Accuracy':'Answered'}</b><span>🎯 ${won?acc+'%':done+'/'+total}</span></div>
